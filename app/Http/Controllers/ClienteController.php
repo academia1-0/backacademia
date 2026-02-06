@@ -60,13 +60,13 @@ class ClienteController extends Controller
     public function show(string $id)
     {
         //return response()->json(Cliente::findOrFail($id));
-        $cliente = Cliente::find($id);
+        // $cliente = Cliente::find($id);
 
-        if ($cliente) {
-            $cliente->delete();
-            return response()->json(['message' => 'Registro deletado com sucesso!'], 200);
-        }
-        return response()->json(['message' => 'Registro não encontrado!'], 404);
+        // if ($cliente) {
+        //     $cliente->delete();
+        //     return response()->json(['message' => 'Registro deletado com sucesso!'], 200);
+        // }
+        // return response()->json(['message' => 'Registro não encontrado!'], 404);
     }
 
     public function update(Request $request, $id)
@@ -89,9 +89,9 @@ class ClienteController extends Controller
 
     public function destroy(string $id)
     {
-        $cliente = Cliente::findOrFail($id);
-        $cliente->delete();
+        // $cliente = Cliente::findOrFail($id);
+        // $cliente->delete();
 
-        return response()->json(['message' => 'Cliente removido com sucesso']);
+        // return response()->json(['message' => 'Cliente removido com sucesso']);
     }
 }
