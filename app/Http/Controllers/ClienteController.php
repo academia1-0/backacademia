@@ -13,6 +13,7 @@ class ClienteController extends Controller
         return response()->json(Cliente::all());
     }
 
+    //Cadastrar cliente utilzando o store por convenção do laravel. Mas não é obrigatório
     public function store(Request $request)
     {
         $request->validate([
@@ -24,10 +25,8 @@ class ClienteController extends Controller
             'sexo' => 'required|string|max:20',
         ]);
 
-        //$cliente = Cliente::create($request->all());
  // Salvar os dados principais no banco de dados
     $cliente = new Cliente();
-        //return response()->json($cliente, 201);
 
         $cliente->fill([
             'nome' => $request->nome,
@@ -59,7 +58,7 @@ class ClienteController extends Controller
 
     public function show(string $id)
     {
-        //return response()->json(Cliente::findOrFail($id));
+        // return response()->json(Cliente::findOrFail($id));
         // $cliente = Cliente::find($id);
 
         // if ($cliente) {
@@ -69,29 +68,38 @@ class ClienteController extends Controller
         // return response()->json(['message' => 'Registro não encontrado!'], 404);
     }
 
+    //Atualizar dados do cliente
     public function update(Request $request, $id)
     {
-        // $cliente = Cliente::findOrFail($id);
+        $cliente = Cliente::findOrFail($id);
 
-        // $request->validate([
-        //     'nome' => 'sometimes|required|string|max:255',
-        //     'email' => 'sometimes|required|email|unique:clientes,email,' . $cliente->id,
-        //     'telefone' => 'nullable|string|max:20',
-        //     'data_nascimento' => 'sometimes|required|date',
-        //     'endereco' => 'sometimes|required|string|max:255',
-        //     'sexo' => 'sometimes|required|string|max:20',
-        // ]);
+        $request->validate([
+            'nome' => 'sometimes|required|string|max:255',
+            'email' => 'sometimes|required|email|unique:clientes,email,' . $cliente->id,
+            'telefone' => 'nullable|string|max:20',
+            'data_nascimento' => 'sometimes|required|string', //Tem que tratar a data de nascimento para tipo data (tava dando erro)
+            'endereco' => 'sometimes|required|string|max:255',
+            'sexo' => 'sometimes|required|string|max:20',
+        ]);
 
-        // $cliente->update($request->all());
+        //Atualiza apenas os campos enviados
+        $cliente->update($request->all());
 
-        // return response()->json($cliente);
+        //Retorna resposta json
+        return response()->json([
+            'message' => 'Cliente atualizado com sucesso',
+            'cliente' => $cliente
+        ]);
     }
 
+    //Deletar Clientes
     public function destroy(string $id)
     {
-        // $cliente = Cliente::findOrFail($id);
-        // $cliente->delete();
+        $cliente = Cliente::findOrFail($id);
+        $cliente->delete();
 
-        // return response()->json(['message' => 'Cliente removido com sucesso']);
+        return response()->json(['message' => 'Cliente removido com sucesso']);
+
+        
     }
 }
