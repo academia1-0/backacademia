@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\EquipeController;
+use App\Http\Controllers\PlanosController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -36,3 +37,17 @@ Route::delete('/funcionario/{id}',[EquipeController::class, "destroy"]);
 
 //Atualziar funcionarios
 Route::put('/funcionario/{id}', [EquipeController::class, "update"]);
+
+//----------------Rota para Planos--------------------------------------------
+
+//Buscar todos os planos
+Route::get('/plano', [PlanosController::class, "index"]);
+
+//Cadastrar planos
+Route::post('/plano', [PlanosController::class, "store"]);
+
+//Deletar planos
+Route::delete('/plano/{id}',[PlanosController::class, "destroy"]);
+
+//Atualziar planos
+Route::put('/plano/{id}', [PlanosController::class, "update"]);
