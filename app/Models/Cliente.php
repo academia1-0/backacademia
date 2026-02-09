@@ -16,7 +16,9 @@ class Cliente extends Model
         'telefone',
         'data_nascimento',
         'endereco',
-        'sexo'
+        'sexo',
+        'pagamento',
+        'data_pagamento'
       
     ];
 }

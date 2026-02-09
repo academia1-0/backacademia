@@ -23,6 +23,8 @@ class ClienteController extends Controller
             'data_nascimento' => 'string',
             'endereco' => 'required|string|max:255',
             'sexo' => 'required|string|max:20',
+            'pagamento' => 'required|boolean',
+            'data_pagamento' => 'nullable|string|max:20'
         ]);
 
  // Salvar os dados principais no banco de dados
@@ -35,6 +37,8 @@ class ClienteController extends Controller
             'data_nascimento' => $request->data_nascimento,
             'endereco' => $request->endereco,
             'sexo' => $request->sexo,
+            'pagamento' => $request->pagamento,
+            'data_pagamento'=>$request->data_pagamento
         ]);
 
         $cliente->save();
@@ -51,6 +55,8 @@ class ClienteController extends Controller
                 'data_nascimento' => $cliente->data_nascimento,
                 'endereco' => $cliente->endereco,
                 'sexo' => $cliente->sexo,
+                'pagamento' => $cliente->pagamento,
+                'data_pagamento' => $cliente->data_pagamento
             // 'images' => json_decode($dadosLanche->images, true)['base64'],
             ],
         ], 201);
@@ -80,6 +86,8 @@ class ClienteController extends Controller
             'data_nascimento' => 'sometimes|required|string', //Tem que tratar a data de nascimento para tipo data (tava dando erro)
             'endereco' => 'sometimes|required|string|max:255',
             'sexo' => 'sometimes|required|string|max:20',
+            'pagamento' => 'required|boolean',
+            'data_pagamento' => 'nullable|string|max:20'
         ]);
 
         //Atualiza apenas os campos enviados
