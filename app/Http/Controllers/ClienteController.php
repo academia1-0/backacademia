@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ClienteController extends Controller
 {
@@ -16,24 +17,32 @@ class ClienteController extends Controller
     //Cadastrar cliente utilzando o store por convenção do laravel. Mas não é obrigatório
     public function store(Request $request)
     {
-        $request->validate([
+        $validator= validator::make($request->all(),[ //usando o ::make() para controlar a resposta.
             'nome' => 'required|string|max:255',
-            'email' => 'required|email|unique:clientes,email',
+            'email' => 'nullable|email|unique:clientes,email',
             'telefone' => 'nullable|string|max:20',
-            'data_nascimento' => 'string',
+            'data_nascimento' => 'nullable|date_format:d/m/Y',
             'endereco' => 'required|string|max:255',
             'sexo' => 'required|string|max:20',
             'pagamento' => 'required|boolean',
-            'data_pagamento' => 'nullable|string|max:20'
+            'data_pagamento' => 'nullable|date_format:d/m/Y'
         ]);
 
- // Salvar os dados principais no banco de dados
-    $cliente = new Cliente();
+        if($validator->fails()){
+            return response()->json([
+                'status'=>'erro',
+                'mensagem'=> 'Erro de validação',
+                'erros'=>$validator->errors()
+            ],422);
+        }
 
+        // Salvar os dados principais no banco de dados
+        $cliente = Cliente::create($request->all());//Estou usando dessa forma porque estou utilizando MUTATOR para converter data la na model 
+ 
         $cliente->fill([
             'nome' => $request->nome,
             'email' => $request->email,
-            'telefone' =>  $request->telefone, // Convertendo array para JSON
+            'telefone' =>  $request->telefone, 
             'data_nascimento' => $request->data_nascimento,
             'endereco' => $request->endereco,
             'sexo' => $request->sexo,
@@ -41,7 +50,7 @@ class ClienteController extends Controller
             'data_pagamento'=>$request->data_pagamento
         ]);
 
-        $cliente->save();
+        // $cliente->save();
 
 
         // Retornar resposta de sucesso
@@ -64,14 +73,7 @@ class ClienteController extends Controller
 
     public function show(string $id)
     {
-        // return response()->json(Cliente::findOrFail($id));
-        // $cliente = Cliente::find($id);
-
-        // if ($cliente) {
-        //     $cliente->delete();
-        //     return response()->json(['message' => 'Registro deletado com sucesso!'], 200);
-        // }
-        // return response()->json(['message' => 'Registro não encontrado!'], 404);
+       
     }
 
     //Atualizar dados do cliente
