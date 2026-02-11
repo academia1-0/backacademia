@@ -20,10 +20,10 @@ class ClienteController extends Controller
         $validator= validator::make($request->all(),[ //usando o ::make() para controlar a resposta.
             'nome' => 'required|string|max:255',
             'email' => 'nullable|email|unique:clientes,email',
-            'telefone' => 'nullable|string|max:20',
-            'data_nascimento' => 'nullable|date_format:d/m/Y',
+            'telefone' => 'required|string|max:20',
+            'data_nascimento' => 'required|date_format:Y-m-d',
             'endereco' => 'required|string|max:255',
-            'sexo' => 'required|string|max:20',
+            'sexo' => 'nullable|string|max:20',
             'pagamento' => 'required|boolean',
             'data_pagamento' => 'nullable|date_format:d/m/Y'
         ]);

@@ -25,12 +25,12 @@ class Cliente extends Model
     ];
 
     //Função para converter data do formato brasileiro d/m/y para o formato que o BD aceita y-m-d
-    public function setDataNascimentoAttribute($value)
-        {
-            $this->attributes['data_nascimento'] =
-                Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+    // public function setDataNascimentoAttribute($value)
+    //     {
+    //         $this->attributes['data_nascimento'] =
+    //             Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
            
-        }
+    //     }
     public function setDataPagamentoAttribute($value)
         {
             $this->attributes['data_pagamento'] =
