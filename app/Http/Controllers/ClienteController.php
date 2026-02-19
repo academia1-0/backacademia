@@ -71,9 +71,10 @@ class ClienteController extends Controller
         ], 201);
     }
 
+    //Mostrar um cliente em especifico
     public function show(string $id)
     {
-       
+        return response()->json(Cliente::findOrFail($id));
     }
 
     //Atualizar dados do cliente

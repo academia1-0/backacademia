@@ -14,6 +14,8 @@ Route::get('/user', function (Request $request) {
 
 //Buscar todos os cliente 
 Route::get('/clientes', [ClienteController::class, "index"]);
+//Buscar cliente especifico 
+Route::get('/clientes/{id}', [ClienteController::class, "show"]);
 
 //Cadastrar Cliente
 Route::post('/clientes', [ClienteController::class, "store"]);
