@@ -48,6 +48,9 @@ Route::put('/funcionario/{id}', [EquipeController::class, "update"]);
 //Buscar todos os planos
 Route::get('/plano', [PlanosController::class, "index"]);
 
+//Buscar plano especifico
+Route::get('/plano/{id}', [PlanosController::class, "show"]);
+
 //Cadastrar planos
 Route::post('/plano', [PlanosController::class, "store"]);
 
