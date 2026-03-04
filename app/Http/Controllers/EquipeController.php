@@ -67,7 +67,7 @@ class EquipeController extends Controller
 
     public function show(string $id)
     {
-       
+        return response()->json(Equipe::findOrFail($id));
     }
 
     //Atualizar dados do Funcionario
@@ -79,7 +79,7 @@ class EquipeController extends Controller
             'nome' => 'sometimes|required|string|max:255',
             'telefone' => 'nullable|string|max:20',
             'email' => 'sometimes|required|email|unique:clientes,email,' . $equipes->id,
-            'data_nascimento' => 'sometimes|required|string', //Tem que tratar a data de nascimento para tipo data (tava dando erro)
+            'data_nascimento' => 'required|date_format:Y-m-d', //Tem que tratar a data de nascimento para tipo data (tava dando erro)
             'endereco' => 'sometimes|required|string|max:255',
             'sexo' => 'sometimes|required|string|max:20',
             'formacao' => 'required|string|max:255',

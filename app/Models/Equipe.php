@@ -21,5 +21,11 @@ class Equipe extends Model
         'salario',
 
     ];
+
+    protected $casts = [
+        'data_nascimento' => 'date',
+       
+    
+    ];
     
 }

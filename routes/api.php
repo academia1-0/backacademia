@@ -31,6 +31,9 @@ Route::put('/clientes/{id}', [ClienteController::class, "update"]);
 //Buscar todos os funcionarios
 Route::get('/funcionario', [EquipeController::class, "index"]);
 
+//Buscar funcionario especifico
+Route::get('/funcionario/{id}', [EquipeController::class, "show"]);
+
 //Cadastrar funcionarios
 Route::post('/funcionario', [EquipeController::class, "store"]);
 
