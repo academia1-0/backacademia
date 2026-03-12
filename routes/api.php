@@ -59,3 +59,11 @@ Route::delete('/plano/{id}',[PlanosController::class, "destroy"]);
 
 //Atualziar planos
 Route::put('/plano/{id}', [PlanosController::class, "update"]);
+
+Route::options('/{any}', function () {
+    return response()->json([], 200, [
+        'Access-Control-Allow-Origin' => '*',
+        'Access-Control-Allow-Methods' => '*',
+        'Access-Control-Allow-Headers' => '*'
+    ]);
+})->where('any', '.*');

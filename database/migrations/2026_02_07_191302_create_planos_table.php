@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('beneficios_plano');
             $table->string('qtd_alunos_plano');
             $table->timestamps();
+            $table->longText('imagem_plano')->nullable();
         });
     }
 

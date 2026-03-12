@@ -17,12 +17,34 @@ class PlanosController extends Controller
     //Cadastrar Equipe utilzando o store por convenção do laravel. Mas não é obrigatório
     public function store(Request $request)
     {
+        // dd($request->all(), $request->file('imagem_plano'));
         $request->validate([
             'nome_plano' => 'required|string|max:255',
             'valor_plano' => 'required|string|max:20',
             'beneficios_plano' => 'required|string|max:255',
-            'qtd_alunos_plano' => 'required|string|max:20'
+            'qtd_alunos_plano' => 'required|string|max:20',
+            'imagem_plano' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
+
+        //Convertendo imagem para base64
+        $imagemBase64 = null;
+
+        if ($request->hasFile('imagem_plano')) {
+        
+            $imagem = $request->file('imagem_plano');
+        
+            $imagemBase64 = base64_encode(
+                file_get_contents($imagem->getRealPath())
+            );
+        
+            $imagemBase64 = json_encode([
+                'nome' => $imagem->getClientOriginalName(),
+                'tipo' => $imagem->getMimeType(),
+                'base64' => $imagemBase64
+            ]);
+        }
+       
+    
 
  // Salvar os dados principais no banco de dados
     $plano = new Planos();
@@ -32,7 +54,7 @@ class PlanosController extends Controller
             'valor_plano' => $request->valor_plano,
             'beneficios_plano' =>  $request->beneficios_plano, // Convertendo array para JSON
             'qtd_alunos_plano' => $request->qtd_alunos_plano,
-            
+            'imagem_plano' => $imagemBase64
     ]);
 
     $plano->save();
@@ -47,7 +69,7 @@ class PlanosController extends Controller
                 'valor_plano' => $plano->valor_plano, // Decodifica JSON armazenado
                 'beneficios_plano' => $plano->beneficios_plano,
                 'qtd_alunos_plano' => $plano->qtd_alunos_plano,
-                
+                'imagem_plano' => json_decode($plano->imagem_plano, true)
             // 'images' => json_decode($dadosLanche->images, true)['base64'],
             ],
         ], 201);
