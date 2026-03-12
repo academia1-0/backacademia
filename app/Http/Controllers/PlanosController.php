@@ -17,7 +17,7 @@ class PlanosController extends Controller
     //Cadastrar Equipe utilzando o store por convenção do laravel. Mas não é obrigatório
     public function store(Request $request)
     {
-        // dd($request->all(), $request->file('imagem_plano'));
+      //dd($request->all(), $request->file('imagem_plano'));
         $request->validate([
             'nome_plano' => 'required|string|max:255',
             'valor_plano' => 'required|string|max:20',
@@ -27,25 +27,18 @@ class PlanosController extends Controller
         ]);
 
         //Convertendo imagem para base64
-        $imagemBase64 = null;
+        $caminhoImagem = null;
 
         if ($request->hasFile('imagem_plano')) {
         
             $imagem = $request->file('imagem_plano');
         
-            $imagemBase64 = base64_encode(
-                file_get_contents($imagem->getRealPath())
-            );
+            $caminhoImagem = $imagem->store('planos', 'public');
         
-            $imagemBase64 = json_encode([
-                'nome' => $imagem->getClientOriginalName(),
-                'tipo' => $imagem->getMimeType(),
-                'base64' => $imagemBase64
-            ]);
         }
        
     
-
+       
  // Salvar os dados principais no banco de dados
     $plano = new Planos();
 
@@ -54,24 +47,25 @@ class PlanosController extends Controller
             'valor_plano' => $request->valor_plano,
             'beneficios_plano' =>  $request->beneficios_plano, // Convertendo array para JSON
             'qtd_alunos_plano' => $request->qtd_alunos_plano,
-            'imagem_plano' => $imagemBase64
+            'imagem_plano' => $caminhoImagem
     ]);
-
+    $plano->imagem_plano = $caminhoImagem;
     $plano->save();
 
 
         // Retornar resposta de sucesso
         return response()->json([
-            'mensagem' => 'Dados salvos com sucesso aqui!',
+            'mensagem' => 'Dados salvos com sucesso!',
             'dados' => [
                 'id' => $plano->id,
                 'nome_plano' => $plano->nome_plano,
-                'valor_plano' => $plano->valor_plano, // Decodifica JSON armazenado
+                'valor_plano' => $plano->valor_plano,
                 'beneficios_plano' => $plano->beneficios_plano,
                 'qtd_alunos_plano' => $plano->qtd_alunos_plano,
-                'imagem_plano' => json_decode($plano->imagem_plano, true)
-            // 'images' => json_decode($dadosLanche->images, true)['base64'],
-            ],
+                'imagem_plano' => $plano->imagem_plano
+                    ? asset('storage/' . $plano->imagem_plano)
+                    : null
+            ]
         ], 201);
     }
 
