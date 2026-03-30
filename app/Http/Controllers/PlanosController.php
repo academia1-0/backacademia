@@ -71,7 +71,7 @@ class PlanosController extends Controller
 
     public function show(string $id)
     {
-       
+        return response()->json(Planos::findOrFail($id));
     }
 
     //Atualizar dados do Funcionario
