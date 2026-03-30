@@ -71,7 +71,13 @@ class PlanosController extends Controller
 
     public function show(string $id)
     {
-        return response()->json(Planos::findOrFail($id));
+        $plano = Planos::find($id);
+
+    if (!$plano) {
+        return response()->json(['message' => 'Plano não encontrado'], 404);
+    }
+
+    return response()->json($plano);
     }
 
     //Atualizar dados do Funcionario
@@ -86,6 +92,21 @@ class PlanosController extends Controller
             'qtd_alunos_plano' => 'required|string|max:20'
             
         ]);
+
+         // 🔥 TRATAMENTO DA IMAGEM
+    if ($request->hasFile('imagem_plano')) {
+
+        // // deleta imagem antiga (opcional, mas recomendado)
+        // if ($plano->imagem_plano) {
+        //     Storage::delete($plano->imagem_plano);
+        // }
+
+        // salva nova imagem
+        $path = $request->file('imagem_plano')->store('planos', 'public');
+
+        $plano->imagem_plano = $path;
+    }
+
 
         //Atualiza apenas os campos enviados
         $plano->update($request->all());
