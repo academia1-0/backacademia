@@ -80,7 +80,7 @@ class PlanosController extends Controller
     return response()->json($plano);
     }
 
-    //Atualizar dados do Funcionario
+    //Atualizar dados do Plano
     public function update(Request $request, $id)
     {
         $plano = Planos::findOrFail($id);
@@ -96,12 +96,6 @@ class PlanosController extends Controller
          // 🔥 TRATAMENTO DA IMAGEM
     if ($request->hasFile('imagem_plano')) {
 
-        // // deleta imagem antiga (opcional, mas recomendado)
-        // if ($plano->imagem_plano) {
-        //     Storage::delete($plano->imagem_plano);
-        // }
-
-        // salva nova imagem
         $path = $request->file('imagem_plano')->store('planos', 'public');
 
         $plano->imagem_plano = $path;
