@@ -20,7 +20,8 @@ class Cliente extends Model
         'endereco',
         'sexo',
         'pagamento',
-        'data_pagamento'
+        'data_pagamento',
+        'plano'
       
     ];
 

@@ -25,7 +25,8 @@ class ClienteController extends Controller
             'endereco' => 'required|string|max:255',
             'sexo' => 'nullable|string|max:20',
             'pagamento' => 'required|boolean',
-            'data_pagamento' => 'nullable|date_format:d/m/Y'
+            'data_pagamento' => 'nullable|date_format:d/m/Y',
+            'plano' => 'nullable|string|max:20'
         ]);
 
         if($validator->fails()){
@@ -47,10 +48,9 @@ class ClienteController extends Controller
             'endereco' => $request->endereco,
             'sexo' => $request->sexo,
             'pagamento' => $request->pagamento,
-            'data_pagamento'=>$request->data_pagamento
+            'data_pagamento'=>$request->data_pagamento,
+            'plano'=>$request->plano
         ]);
-
-        // $cliente->save();
 
 
         // Retornar resposta de sucesso
@@ -65,7 +65,8 @@ class ClienteController extends Controller
                 'endereco' => $cliente->endereco,
                 'sexo' => $cliente->sexo,
                 'pagamento' => $cliente->pagamento,
-                'data_pagamento' => $cliente->data_pagamento
+                'data_pagamento' => $cliente->data_pagamento,
+                'plano' => $cliente->plano
             // 'images' => json_decode($dadosLanche->images, true)['base64'],
             ],
         ], 201);
@@ -90,7 +91,8 @@ class ClienteController extends Controller
             'endereco' => 'sometimes|required|string|max:255',
             'sexo' => 'sometimes|required|string|max:20',
             'pagamento' => 'required|boolean',
-            'data_pagamento' => 'nullable|string|max:20'
+            'data_pagamento' => 'nullable|string|max:20',
+            'plano' => 'sometimes|string|max:50'
         ]);
 
         //Atualiza apenas os campos enviados
